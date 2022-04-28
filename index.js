@@ -4,7 +4,7 @@ const { listen } = require('express/lib/application');
 require('dotenv').config();
 const app=express();
 const port=process.env.Port || 5000;
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion ,ObjectId} = require('mongodb');
 
 
 //middleWare
@@ -36,7 +36,34 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         const result=await collection.insertOne(data)
         res.send(result);
             
-        })
+        });
+        // put api
+        app.put('/product/:id',async(req,res)=>{
+          const id=req.params.id;
+          const data=req.body;
+          console.log(data);
+          const filter = { _id:ObjectId(id)  };
+          const options = { upsert: true };
+          const updateDoc = {
+              $set: {...data},
+            };
+            const result = await collection.updateOne(filter, updateDoc, options);
+          res.send(result);
+
+         
+
+
+      })
+      // delete api
+      app.delete('/product/:id',async(req,res)=>{
+          const id=req.params.id;
+          const filter={_id:ObjectId(id)};
+          const result = await collection.deleteOne(filter);
+          res.send(result);
+
+      })
+   
+
       
 
      }finally{ }
