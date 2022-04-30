@@ -26,6 +26,16 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             res.send(product);
 
         });
+         // find one
+        app.get('/product/:id',async(req,res)=>{
+          const id=req.params.id;
+          console.log(id);
+          const query={_id:ObjectId(id)}
+           const result=await collection.findOne(query)
+           res.send(result);
+  
+        });
+
         // post api
         app.post('/product',async(req,res)=>{
         const data=req.body;
@@ -45,8 +55,10 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
               $set: {...data},
             };
             const result = await collection.updateOne(filter, updateDoc, options);
-          res.send(result);
+            res.send(result);
       })
+     
+    
       // delete api
       app.delete('/product/:id',async(req,res)=>{
           const id=req.params.id;
