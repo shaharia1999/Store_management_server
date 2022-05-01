@@ -44,15 +44,27 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         res.send(result);
             
         });
+      //   app.put('/inventory/:id', async (req, res) => {
+      //     const id = req.params.id
+      //     const updatedStock = req.body
+      //     const filter = { _id: ObjectId(id) };
+      //     const options = { upsert: true };
+      //     const updateDocument = {
+      //         $set: updatedStock
+      //       };
+      //       const result = await   Inventorycollecttion.updateOne(filter, updateDocument, options)
+       
+      //     res.send(result)
+
+      // })
         // put api
         app.put('/product/:id',async(req,res)=>{
           const id=req.params.id;
           const data=req.body;
-          console.log(data);
           const filter = { _id:ObjectId(id)  };
           const options = { upsert: true };
           const updateDoc = {
-              $set: {...data},
+            $set: data
             };
             const result = await collection.updateOne(filter, updateDoc, options);
             res.send(result);
