@@ -99,6 +99,18 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             const result = await collection.updateOne(filter, updateDoc, options);
             res.send(result);
       })
+        app.put('/product/increase/:id',async(req,res)=>{
+          const id=req.params.id;
+          const data=req.body;
+          console.log(data);
+          const filter =  {_id: id} ;
+          console.log("filter",filter);
+          const options = { upsert: false };
+          const updateDoc = {
+             $inc: { quantity:data.amount} }
+            const result = await collection.updateOne(filter, updateDoc, options);
+            res.send(result);
+      })
      
     
       // delete api
