@@ -1,6 +1,7 @@
 const express = require('express');
 const cors=require('cors');
 const { listen } = require('express/lib/application');
+const bodyParser = require('body-parser')
 require('dotenv').config();
 const app=express();
 const port=process.env.PORT || 5000;
@@ -8,6 +9,7 @@ const { MongoClient, ServerApiVersion,ObjectId } = require('mongodb');
 
 //middleWare
 app.use(cors())
+app.use(bodyParser.json())
 app.use(express.json())
 /// mongodb Collection
 
@@ -102,7 +104,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         app.put('/product/increase/:id',async(req,res)=>{
           const id=req.params.id;
           const data=req.body;
-          console.log(data);
+          console.log("data",data);
           const filter =  {_id: id} ;
           console.log("filter",filter);
           const options = { upsert: false };
