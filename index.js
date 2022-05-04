@@ -4,7 +4,7 @@ const { listen } = require('express/lib/application');
 require('dotenv').config();
 const app=express();
 const port=process.env.PORT || 5000;
-const { MongoClient, ServerApiVersion ,ObjectId} = require('mongodb');
+const { MongoClient, ServerApiVersion,ObjectId } = require('mongodb');
 
 //middleWare
 app.use(cors())
@@ -26,15 +26,43 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             res.send(product);
 
         });
-         // find one
+
+        // app.get('/product/:id',async(req,res)=>{
+        //   const id=req.params.id;
+        //   console.log(id);
+        //   const query={_id :ObjectId(id)};
+        //   const result=await collection.findOne(query);
+        //   console.log(result);
+        //   res.send(result);
+
+        
+        // })
+        //  find one
+        // app.get('/product/:id',async(req,res)=>{
+        //   const id=req.params.id;
+        //   const query={ _id:ObjectId(id)};
+        //    const result=await collection.findOne(query)
+        //    res.send(result);
+        // });
         app.get('/product/:id',async(req,res)=>{
           const id=req.params.id;
-          console.log(id);
-          const query={_id:ObjectId(id)}
-           const result=await collection.findOne(query)
-           res.send(result);
-  
-        });
+          // const query={_id:ObjectId(id)}
+          // console.log("query",query);
+          const result=await collection.findOne({_id: id});
+          // res.send(result);
+          console.log(result)
+          if(result){  
+            res.send(result)
+          }else{
+            res.send("nothing")
+          }
+      })
+      //   app.get('/user/:id',(req,res)=>{
+      //     const id=req.params.id;
+      //     const user=users.find(u=>u.id==id);
+      //     res.send(user)
+      //      res.send("finding User")
+      //  })
 
         // post api
         app.post('/product',async(req,res)=>{
@@ -42,6 +70,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         console.log(data);
         const result=await collection.insertOne(data)
         res.send(result);
+       
             
         });
       //   app.put('/inventory/:id', async (req, res) => {
@@ -57,15 +86,16 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
       //     res.send(result)
 
       // })
-        // put api
-        app.put('/product/:id',async(req,res)=>{
+        // put
+        app.put('/product/reduce/:id',async(req,res)=>{
           const id=req.params.id;
           const data=req.body;
-          const filter = { _id:ObjectId(id)  };
-          const options = { upsert: true };
+          console.log(data);
+          const filter =  {_id: id} ;
+          console.log("filter",filter);
+          const options = { upsert: false };
           const updateDoc = {
-            $set: data
-            };
+             $inc: { quantity: -1 } }
             const result = await collection.updateOne(filter, updateDoc, options);
             res.send(result);
       })
