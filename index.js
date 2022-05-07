@@ -29,29 +29,16 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
         });
 
-        // app.get('/product/:id',async(req,res)=>{
-        //   const id=req.params.id;
-        //   console.log(id);
-        //   const query={_id :ObjectId(id)};
-        //   const result=await collection.findOne(query);
-        //   console.log(result);
-        //   res.send(result);
+       
 
         
-        // })
-        //  find one
-        // app.get('/product/:id',async(req,res)=>{
-        //   const id=req.params.id;
-        //   const query={ _id:ObjectId(id)};
-        //    const result=await collection.findOne(query)
-        //    res.send(result);
-        // });
+       // get by id
         app.get('/product/:id',async(req,res)=>{
           const id=req.params.id;
           // const query={_id:ObjectId(id)}
           // console.log("query",query);
           const result=await collection.findOne({_id: id});
-          // res.send(result);
+        
           console.log(result)
           if(result){  
             res.send(result)
@@ -59,12 +46,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             res.send("nothing")
           }
       })
-      //   app.get('/user/:id',(req,res)=>{
-      //     const id=req.params.id;
-      //     const user=users.find(u=>u.id==id);
-      //     res.send(user)
-      //      res.send("finding User")
-      //  })
+    
 
         // post api
         app.post('/product',async(req,res)=>{
@@ -75,20 +57,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
        
             
         });
-      //   app.put('/inventory/:id', async (req, res) => {
-      //     const id = req.params.id
-      //     const updatedStock = req.body
-      //     const filter = { _id: ObjectId(id) };
-      //     const options = { upsert: true };
-      //     const updateDocument = {
-      //         $set: updatedStock
-      //       };
-      //       const result = await   Inventorycollecttion.updateOne(filter, updateDocument, options)
-       
-      //     res.send(result)
-
-      // })
-        // put
+     /// put api
         app.put('/product/reduce/:id',async(req,res)=>{
           const id=req.params.id;
           const data=req.body;
@@ -101,18 +70,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             const result = await collection.updateOne(filter, updateDoc, options);
             res.send(result);
       })
-      //   app.put('/product/increase/:id',async(req,res)=>{
-      //     const id=req.params.id;
-      //     const data=req.body;
-      //     console.log("data",data);
-      //     const filter =  {_id: id} ;
-      //     console.log("filter",filter);
-      //     const options = { upsert: false };
-      //     const updateDoc = {
-      //        $inc: { quantity:data.amount} }
-      //       const result = await collection.updateOne(filter, updateDoc, options);
-      //       res.send(result);
-      // })
+   
+  
 
       app.put('/product/increase/:id',async(req,res)=>{
         const id=req.params.id;
