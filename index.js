@@ -13,7 +13,7 @@ app.use(bodyParser.json())
 app.use(express.json())
 /// mongodb Collection
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rykcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://shaha:cc5k8vrZ3wdx67u4@cluster0.rykcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
   async function run(){
